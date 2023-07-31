@@ -13,18 +13,19 @@ const Home = ({navigation}: Props) => {
     return (
         <View style={styles.main}>
             <Text style={styles.text}>Home</Text>
-            <Button title='Character Choose' onPress={() => {
+            {/* <Button title='Character Choose' onPress={() => {
                 navigation.navigate('CharacterChooser')
-            }}/>
+            }}/> */}
         </View>
     )
 }
 
 const styles = StyleSheet.create({
-main : {
+main: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'orange'
 },
 text : {
     color: 'black'

@@ -3,7 +3,7 @@ import {Text, View, StyleSheet} from 'react-native';
 const CharacterChooser = () => {
     return (
         <View style={styles.main} >
-            <Text style={styles.text}>Character Chooser</Text>
+            <Text style={styles.text}>Character Chooser aaa</Text>
         </View>
     )
 }

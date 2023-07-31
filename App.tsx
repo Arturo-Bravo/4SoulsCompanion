@@ -5,6 +5,7 @@
  * @format
  */
 
+import 'react-native-gesture-handler';
 import React from 'react';
 import type {PropsWithChildren} from 'react';
 import {
@@ -24,10 +25,11 @@ import {
 
 import {NavigationContainer} from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import Home from './navigation/screens/HomeScreen';
 import CharacterChooser from './navigation/screens/CharacterChooser';
 
-const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -70,14 +72,10 @@ function App(): JSX.Element {
     <NavigationContainer>
       {/* <SafeAreaView style={backgroundStyle}> */}
 
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Home"
-            component={Home}
-            // options={{title: 'Welcome'}}
-          />
-          <Stack.Screen name="CharacterChooser" component={CharacterChooser} />
-        </Stack.Navigator>
+      <Drawer.Navigator initialRouteName="Home">
+        <Drawer.Screen name="Home" component={Home} />
+        <Drawer.Screen name="CharacterChooser" component={CharacterChooser} />
+      </Drawer.Navigator>
     {/* </SafeAreaView> */}
   </NavigationContainer>
 );
