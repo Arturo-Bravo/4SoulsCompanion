@@ -71,7 +71,6 @@ function App(): JSX.Element {
   return (
     <NavigationContainer>
       {/* <SafeAreaView style={backgroundStyle}> */}
-
       <Drawer.Navigator initialRouteName="Home">
         <Drawer.Screen name="Home" component={Home} />
         <Drawer.Screen name="CharacterChooser" component={CharacterChooser} />
