@@ -24,8 +24,8 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import {NavigationContainer} from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 import Home from './navigation/screens/HomeScreen';
 import CharacterChooser from './navigation/screens/CharacterChooser';
 
@@ -76,13 +76,13 @@ function App(): JSX.Element {
         <Drawer.Screen name="Home" component={Home} />
         <Drawer.Screen name="CharacterChooser" component={CharacterChooser} />
       </Drawer.Navigator>
-    {/* </SafeAreaView> */}
-  </NavigationContainer>
-);
+      {/* </SafeAreaView> */}
+    </NavigationContainer>
+  );
 }
 
 const styles = StyleSheet.create({
-sectionContainer: {
+  sectionContainer: {
     marginTop: 32,
     paddingHorizontal: 24,
   },
