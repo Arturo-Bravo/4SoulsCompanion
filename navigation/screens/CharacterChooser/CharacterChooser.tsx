@@ -1,11 +1,27 @@
 import React, {useCallback, useState} from 'react';
-import {Text, View, StyleSheet, Image, FlatList} from 'react-native';
-import {CHARACTERS} from '../../utils/characters';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {
+  Text,
+  View,
+  StyleSheet,
+  Image,
+  FlatList,
+  Button,
+  Dimensions,
+} from 'react-native';
+import {CHARACTERS} from '../../../utils/characters';
+import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faCircleCheck} from '@fortawesome/free-regular-svg-icons';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParamList} from './CharacterShuffler';
+const {width} = Dimensions.get('window');
+
 const CharacterChooser = () => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const [chosen, setChosen] = useState<number[]>([]);
+  const [numPlayers, setNumPlayers] = useState<string>('');
   const [selected, setSelected] = useState<number>();
 
   const handlePress = useCallback((id: number) => {
@@ -18,6 +34,13 @@ const CharacterChooser = () => {
     });
     setSelected(id);
   }, []);
+
+  const navigateToNewScreen = useCallback(() => {
+    navigation.navigate('CharacterShuffler', {
+      characters: chosen,
+      numPlayers: numPlayers,
+    }); // Navigate to the NewScreen within the stack navigator
+  }, [navigation, chosen, numPlayers]);
 
   return (
     <View style={styles.main}>
@@ -32,7 +55,7 @@ const CharacterChooser = () => {
                 <View style={styles.overlay}>
                   <FontAwesomeIcon
                     icon={faCircleCheck}
-                    color="blue"
+                    color="#91B8D0"
                     size={40}
                   />
                 </View>
@@ -52,6 +75,21 @@ const CharacterChooser = () => {
         )}
         keyExtractor={item => `${item.id}`}
         numColumns={3}
+      />
+      <TextInput
+        keyboardType="numeric"
+        value={numPlayers}
+        onChangeText={text =>
+          text === ''
+            ? setNumPlayers('')
+            : setNumPlayers(parseInt(text, 10).toString())
+        }
+        style={[styles.input]}
+      />
+      <Button
+        title="Shuffle the Characters"
+        disabled={numPlayers === '' || chosen.length === 0}
+        onPress={navigateToNewScreen}
       />
     </View>
   );
@@ -90,9 +128,14 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    borderColor: 'blue',
-    borderWidth: 4,
-    borderRadius: 7,
+  },
+  input: {
+    color: 'black',
+    width: (width * 4) / 9,
+    borderRadius: 3,
+    borderColor: 'black',
+    borderWidth: 2,
+    marginVertical: 5,
   },
 });
 

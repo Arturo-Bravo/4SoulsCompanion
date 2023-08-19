@@ -27,9 +27,11 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import Home from './navigation/screens/HomeScreen';
-import CharacterChooser from './navigation/screens/CharacterChooser';
+import CharacterChooser from './navigation/screens/CharacterChooser/CharacterChooser';
+import CharacterShuffler from './navigation/screens/CharacterChooser/CharacterShuffler';
 
 const Drawer = createDrawerNavigator();
+const Stack = createNativeStackNavigator();
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -61,6 +63,16 @@ function Section({children, title}: SectionProps): JSX.Element {
   );
 }
 
+const CharacterChooserStack = () => (
+  <Stack.Navigator
+    screenOptions={{
+      headerShown: false,
+    }}>
+    <Stack.Screen name="Chooser" component={CharacterChooser} />
+    <Stack.Screen name="CharacterShuffler" component={CharacterShuffler} />
+  </Stack.Navigator>
+);
+
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -70,12 +82,13 @@ function App(): JSX.Element {
 
   return (
     <NavigationContainer>
-      {/* <SafeAreaView style={backgroundStyle}> */}
       <Drawer.Navigator initialRouteName="Home">
         <Drawer.Screen name="Home" component={Home} />
-        <Drawer.Screen name="CharacterChooser" component={CharacterChooser} />
+        <Drawer.Screen
+          name="CharacterChooser"
+          component={CharacterChooserStack}
+        />
       </Drawer.Navigator>
-      {/* </SafeAreaView> */}
     </NavigationContainer>
   );
 }
