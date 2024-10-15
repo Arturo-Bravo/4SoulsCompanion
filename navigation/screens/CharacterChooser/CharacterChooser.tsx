@@ -36,10 +36,12 @@ const CharacterChooser = () => {
   }, []);
 
   const navigateToNewScreen = useCallback(() => {
-    navigation.navigate('CharacterShuffler', {
-      characters: chosen,
-      numPlayers: numPlayers,
-    }); // Navigate to the NewScreen within the stack navigator
+    setTimeout(function () {
+      navigation.navigate('CharacterShuffler', {
+        characters: chosen,
+        numPlayers: numPlayers,
+      }); // Navigate to the NewScreen within the stack navigator
+    }, 2000);
   }, [navigation, chosen, numPlayers]);
 
   return (
@@ -72,6 +74,11 @@ const CharacterChooser = () => {
               />
             </View>
           </TouchableOpacity>
+          // <View>
+          //   <Image
+          //     source={require('../../../Images/back-plates/CharacterCardBack.png')}
+          //   />
+          // </View>
         )}
         keyExtractor={item => `${item.id}`}
         numColumns={3}

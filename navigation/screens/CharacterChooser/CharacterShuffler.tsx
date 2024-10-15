@@ -34,22 +34,46 @@ const CharacterShuffler = (props: IProps) => {
     shuffleArray();
   }, [characters, numPlayers]);
   return (
-    <View>
-      <Text style={{color: 'black'}}>CharacterShuffler</Text>
+    <View style={styles.main}>
       <View>
-        {shuffledArray?.map((id, index) => (
-          <View key={id}>
-            <Text style={styles.text}>Player: {index + 1}</Text>
-            <Image source={CHARACTERS[id].img} />
-          </View>
-        ))}
+        <FlatList
+          style={styles.flatList}
+          data={shuffledArray}
+          renderItem={({item, index}) => (
+            <View>
+              <Text style={styles.text}>Player: {index + 1}</Text>
+              <Image
+                style={[
+                  styles.img,
+                  {marginRight: (index + 1) % 3 === 0 ? 0 : 10},
+                ]}
+                source={CHARACTERS[item].img}
+              />
+            </View>
+          )}
+          keyExtractor={(item, index) => index.toString()}
+          numColumns={3}></FlatList>
       </View>
     </View>
   );
 };
 const styles = StyleSheet.create({
+  main: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   text: {
     color: 'black',
+  },
+  flatList: {
+    marginHorizontal: 'auto',
+  },
+  img: {
+    marginTop: 10,
+    width: 100,
+    height: 136,
+    borderRadius: 7,
   },
 });
 
