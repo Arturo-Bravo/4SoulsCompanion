@@ -18,6 +18,7 @@ const CharacterShuffler = (props: IProps) => {
   const [shuffledArray, setShuffledArray] = useState<number[] | null>(null);
   const {characters, numPlayers} = props.route.params;
 
+  // TODO, this should not shuffle the elements of the array, there should be a better way to achieve the shuffle
   const shuffleArray = useCallback(() => {
     const shuffledArray = [...characters]; // Create a copy of the original array
     for (let i = shuffledArray.length - 1; i > 0; i--) {

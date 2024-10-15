@@ -36,12 +36,12 @@ const CharacterChooser = () => {
   }, []);
 
   const navigateToNewScreen = useCallback(() => {
-    setTimeout(function () {
-      navigation.navigate('CharacterShuffler', {
-        characters: chosen,
-        numPlayers: numPlayers,
-      }); // Navigate to the NewScreen within the stack navigator
-    }, 2000);
+    // setTimeout(function () {
+    navigation.navigate('CharacterShuffler', {
+      characters: chosen,
+      numPlayers: numPlayers,
+    }); // Navigate to the NewScreen within the stack navigator
+    // }, 2000);
   }, [navigation, chosen, numPlayers]);
 
   return (
@@ -84,6 +84,8 @@ const CharacterChooser = () => {
         numColumns={3}
       />
       <TextInput
+        placeholder="Number of players"
+        placeholderTextColor="black"
         keyboardType="numeric"
         value={numPlayers}
         onChangeText={text =>
