@@ -17,12 +17,15 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from './CharacterShuffler';
 const {width} = Dimensions.get('window');
 
+type CharacterFilter = 'all' | 'regular' | 'tainted';
+
 const CharacterChooser = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const [chosen, setChosen] = useState<number[]>([]);
   const [numPlayers, setNumPlayers] = useState<string>('');
   const [selected, setSelected] = useState<number>();
+  const [filter, setFilter] = useState<CharacterFilter>('all');
 
   const handlePress = useCallback((id: number) => {
     setChosen(prevChosen => {
@@ -44,11 +47,66 @@ const CharacterChooser = () => {
     // }, 2000);
   }, [navigation, chosen, numPlayers]);
 
+  const filteredCharacters = React.useMemo(() => {
+    return CHARACTERS.filter(char => {
+      if (filter === 'regular') return !char.tainted;
+      if (filter === 'tainted') return char.tainted;
+      return true; // 'all' filter
+    });
+  }, [filter]);
+
   return (
     <View style={styles.main}>
       <Text style={styles.text}>Choose Your Characters</Text>
+      <View style={styles.filterWrapper}>
+        <View style={styles.filterContainer}>
+          <TouchableOpacity
+            style={[
+              styles.filterButton,
+              filter === 'regular' && styles.filterButtonActive,
+            ]}
+            onPress={() => setFilter('regular')}>
+            <Text
+              style={[
+                styles.filterButtonText,
+                filter === 'regular' && {color: 'white'},
+              ]}>
+              Regular
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              styles.filterButton,
+              filter === 'tainted' && styles.filterButtonActive,
+            ]}
+            onPress={() => setFilter('tainted')}>
+            <Text
+              style={[
+                styles.filterButtonText,
+                filter === 'tainted' && {color: 'white'},
+              ]}>
+              Tainted
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              styles.filterButton,
+              styles.filterButtonLast,
+              filter === 'all' && styles.filterButtonActive,
+            ]}
+            onPress={() => setFilter('all')}>
+            <Text
+              style={[
+                styles.filterButtonText,
+                filter === 'all' && {color: 'white'},
+              ]}>
+              All
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
       <FlatList
-        data={CHARACTERS}
+        data={filteredCharacters}
         extraData={selected}
         renderItem={({item}) => (
           <TouchableOpacity
@@ -112,6 +170,43 @@ const styles = StyleSheet.create({
   main: {
     flex: 1,
     backgroundColor: 'white',
+  },
+  filterWrapper: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  filterContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    margin: 10,
+    borderWidth: 1,
+    borderColor: 'black',
+    backgroundColor: 'white',
+    borderRadius: 0,
+    overflow: 'hidden',
+    width: '75%',
+  },
+  filterButton: {
+    width: 100, // Fixed width for each button
+    height: 44,
+    borderWidth: 0,
+    borderRightWidth: 1,
+    borderColor: 'black',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+  },
+  filterButtonLast: {
+    borderRightWidth: 0, // Remove right border for the last button
+  },
+  filterButtonActive: {
+    // Make this a dark red
+    backgroundColor: '#8B0000',
+  },
+  filterButtonText: {
+    color: '#333',
+    fontSize: 14,
+    fontWeight: '500',
   },
   text: {
     color: 'black',
