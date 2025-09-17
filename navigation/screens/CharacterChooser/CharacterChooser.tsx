@@ -38,6 +38,19 @@ const CharacterChooser = () => {
     setSelected(id);
   }, []);
 
+  const handleFilterSelect = useCallback((filterType: CharacterFilter) => {
+    setFilter(filterType);
+
+    // Select all characters that match the filter
+    const characterIds = CHARACTERS.filter(char => {
+      if (filterType === 'regular') return !char.tainted;
+      if (filterType === 'tainted') return char.tainted;
+      return true; // 'all' filter
+    }).map(char => char.id);
+
+    setChosen(characterIds);
+  }, []);
+
   const navigateToNewScreen = useCallback(() => {
     // setTimeout(function () {
     navigation.navigate('CharacterShuffler', {
@@ -46,14 +59,6 @@ const CharacterChooser = () => {
     }); // Navigate to the NewScreen within the stack navigator
     // }, 2000);
   }, [navigation, chosen, numPlayers]);
-
-  const filteredCharacters = React.useMemo(() => {
-    return CHARACTERS.filter(char => {
-      if (filter === 'regular') return !char.tainted;
-      if (filter === 'tainted') return char.tainted;
-      return true; // 'all' filter
-    });
-  }, [filter]);
 
   return (
     <View style={styles.main}>
@@ -65,7 +70,7 @@ const CharacterChooser = () => {
               styles.filterButton,
               filter === 'regular' && styles.filterButtonActive,
             ]}
-            onPress={() => setFilter('regular')}>
+            onPress={() => handleFilterSelect('regular')}>
             <Text
               style={[
                 styles.filterButtonText,
@@ -79,7 +84,7 @@ const CharacterChooser = () => {
               styles.filterButton,
               filter === 'tainted' && styles.filterButtonActive,
             ]}
-            onPress={() => setFilter('tainted')}>
+            onPress={() => handleFilterSelect('tainted')}>
             <Text
               style={[
                 styles.filterButtonText,
@@ -94,7 +99,7 @@ const CharacterChooser = () => {
               styles.filterButtonLast,
               filter === 'all' && styles.filterButtonActive,
             ]}
-            onPress={() => setFilter('all')}>
+            onPress={() => handleFilterSelect('all')}>
             <Text
               style={[
                 styles.filterButtonText,
@@ -106,7 +111,7 @@ const CharacterChooser = () => {
         </View>
       </View>
       <FlatList
-        data={filteredCharacters}
+        data={CHARACTERS}
         extraData={selected}
         renderItem={({item}) => (
           <TouchableOpacity
@@ -142,7 +147,7 @@ const CharacterChooser = () => {
         )}
         keyExtractor={item => `${item.id}`}
       />
-      <View style={{padding: 16}}>
+      <View style={styles.inputContainer}>
         <TextInput
           placeholder="Number of players"
           placeholderTextColor="#666"
@@ -246,6 +251,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0.3)',
     borderRadius: 5,
+  },
+  inputContainer: {
+    padding: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   input: {
     color: 'black',
