@@ -126,6 +126,7 @@ const CharacterChooser = () => {
                     : styles.unselected,
                 ]}
                 source={item.img}
+                resizeMode="contain"
               />
               {chosen.includes(item.id) && (
                 <View style={styles.overlay}>
@@ -139,11 +140,6 @@ const CharacterChooser = () => {
             </View>
             <Text style={{color: 'black', fontSize: 14}}>{item.name}</Text>
           </TouchableOpacity>
-          // <View>
-          //   <Image
-          //     source={require('../../../Images/back-plates/CharacterCardBack.png')}
-          //   />
-          // </View>
         )}
         keyExtractor={item => `${item.id}`}
       />

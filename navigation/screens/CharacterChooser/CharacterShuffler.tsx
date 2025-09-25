@@ -14,6 +14,8 @@ interface IProps {
   route: RouteProp<RootStackParamList, 'CharacterShuffler'>;
 }
 
+const sampleImage = require('../../../Images/characters/b2-isaac.png');
+
 const CharacterShuffler = (props: IProps) => {
   const [shuffledArray, setShuffledArray] = useState<number[] | null>(null);
   const {characters, numPlayers} = props.route.params;
@@ -42,7 +44,7 @@ const CharacterShuffler = (props: IProps) => {
           data={shuffledArray}
           renderItem={({item, index}) => (
             <View>
-              <Text style={styles.text}>Player: {index + 1}</Text>
+              <Text style={styles.text}>{CHARACTERS[item].name}</Text>
               <Image
                 style={[
                   styles.img,
